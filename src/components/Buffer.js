@@ -9,14 +9,14 @@ import RNBluetoothClassic, {
 } from 'react-native-bluetooth-classic';
 
 const App = () => {
-  const [isAvailable, setIsAvailable] = React.useState(false);
+  const [isEnabled, setIsEnabled] = React.useState(false);
   const [pairedDevices, setPairedDevices] = React.useState([]);
   const [connected, setConnected] = React.useState(false);
   const [connectedDevice, setConnectedDevice] = React.useState(null);
 
   useEffect(() => {
     RNBluetoothClassic.isBluetoothEnabled().then(isEnabled => {
-      setIsAvailable(isEnabled);
+      setIsEnabled(isEnabled);
     });
     RNBluetoothClassic.getBondedDevices().then(devices => {
       setPairedDevices(devices);
@@ -26,7 +26,7 @@ const App = () => {
   if (!connected && !connectedDevice) {
     return (
       <View style={{backgroundColor: '#fff', flex: 1}}>
-        <Text>{isAvailable ? 'Available' : 'Not Available'}</Text>
+        <Text>{isEnabled ? 'Available' : 'Not Available'}</Text>
         {pairedDevices.map(device => (
           //Display as pressable text
           <Button

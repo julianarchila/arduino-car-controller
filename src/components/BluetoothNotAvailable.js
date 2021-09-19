@@ -1,15 +1,34 @@
-import React from 'react';
-import {View, Text} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, Button, Alert} from 'react-native';
 
-const BluetoothNotAvailable = () => {
-  return (
-    <View>
-      <Text>
-        Bluetooth is not available on this device. Please enable Bluetooth to
-        use this app.
-      </Text>
-    </View>
-  );
+import RNBluetoothClassic from 'react-native-bluetooth-classic';
+
+const BluetoothNotAvailable = ({bluetoothEnabled}) => {
+  const [error, setError] = useState(null);
+  const requestBluetooth = () => {
+    RNBluetoothClassic.requestBluetoothEnabled()
+      .then(res => {
+        console.log('Bluetooth enable request response', res);
+      })
+      .catch(err => {
+        console.log('Bluetooth enable request error', err.message);
+        setError(err);
+      });
+  };
+  useEffect(() => {
+    if (!bluetoothEnabled) {
+      requestBluetooth();
+    }
+  }, []);
+  if (error) {
+    Alert.alert('Enable bluetooth', 'Bluetooth is required to use this app', [
+      {
+        text: 'Turn on',
+        onPress: requestBluetooth,
+      },
+    ]);
+  }
+  return <View></View>;
 };
 
 export default BluetoothNotAvailable;

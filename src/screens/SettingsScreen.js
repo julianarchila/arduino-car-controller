@@ -59,6 +59,10 @@ const SettingsScreen = props => {
       <Button
         title="disconnect"
         onPress={() => {
+          if (!connectedDevice) {
+            console.log('Not device conencted');
+            return;
+          }
           connectedDevice
             .disconnect()
             .then(res => {

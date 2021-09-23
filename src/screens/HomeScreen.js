@@ -11,6 +11,7 @@ import AppContext from '../AppContext';
 
 import BluetoothNotAvailable from '../components/BluetoothNotAvailable';
 import {turnOnLed, turnOffLed} from '../utils/ledActions';
+import AddButton from '../components/AddButton';
 
 const HomeScreen = ({navigation}) => {
   const [bluetoothEnabled, setBluetoothEnabled] = useState(false);
@@ -53,8 +54,9 @@ const HomeScreen = ({navigation}) => {
         <Text>Connected to {connectedDevice.name}</Text>
       )}
       <Text>Home Screen</Text>
-      <Button title="Turn On" onPress={() => turnOnLed(connectedDevice)} />
-      <Button title="Turn Off" onPress={() => turnOffLed(connectedDevice)} />
+      <AddButton />
+      {/* <Button title="Turn On" onPress={() => turnOnLed(connectedDevice)} />
+      <Button title="Turn Off" onPress={() => turnOffLed(connectedDevice)} /> */}
       {connectedDevice && (
         <View>
           <TextInput

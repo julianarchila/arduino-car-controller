@@ -12,6 +12,7 @@ import AppContext from '../AppContext';
 import BluetoothNotAvailable from '../components/BluetoothNotAvailable';
 import {turnOnLed, turnOffLed} from '../utils/ledActions';
 import AddButton from '../components/AddButton';
+import Control from "../components/Control";
 
 const HomeScreen = ({navigation}) => {
   const [bluetoothEnabled, setBluetoothEnabled] = useState(false);
@@ -83,6 +84,7 @@ const HomeScreen = ({navigation}) => {
                 });
             }}
           />
+          <Control />
         </View>
       )}
     </View>

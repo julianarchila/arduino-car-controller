@@ -60,6 +60,15 @@ const AddButton = () => {
         }
     }, [titleText, messageText])
 
+    // useEffect(() => {
+    //     setDataButtons(getData("buttons"));
+    // }, [])
+
+    // $+10$
+    // $stop$
+    // $reverse$
+    // $-10$
+
     return(
         <View>
             <Button

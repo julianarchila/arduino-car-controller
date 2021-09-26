@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 
 import AppContext from '../AppContext';
 
-const Control = () => {
+const Control = ({enabled}) => {
   const [timeFront, setTimeFront] = useState(true);
   const [direction, setDirection] = useState('front');
   const {connectedDevice, setConnectedDevice} = useContext(AppContext);
@@ -22,6 +22,7 @@ const Control = () => {
   };
 
   const send = async nameButton => {
+    console.log('Send', nameButton);
     switch (nameButton) {
       case 'front':
         if (direction !== 'front') {
@@ -31,15 +32,15 @@ const Control = () => {
         }
         sendMessage('$+10$');
         break;
-      case 'left':
-        console.log('left');
-        break;
       case 'stop':
         setTimeFront(false);
         sendMessage('$stop$');
         break;
+      case 'left':
+        sendMessage('$left$');
+        break;
       case 'right':
-        console.log('right');
+        sendMessage('$right$');
         break;
       case 'reverse':
         if (direction !== 'reverse') {
@@ -58,25 +59,38 @@ const Control = () => {
   return (
     <View style={styles.container}>
       <View style={styles.containerButtonsExtremes}>
-        <TouchableOpacity onPress={() => send('front')} style={styles.button}>
+        <TouchableOpacity
+          disabled={!enabled}
+          onPress={() => send('front')}
+          style={styles.button}>
           <Text style={styles.text}>F</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.containerButtonsCenter}>
-        <TouchableOpacity onPress={() => send('left')} style={styles.button}>
+        <TouchableOpacity
+          disabled={!enabled}
+          onPress={() => send('left')}
+          style={styles.button}>
           <Text style={styles.text}>L</Text>
         </TouchableOpacity>
         <TouchableOpacity
+          disabled={!enabled}
           onPress={() => send('stop')}
           style={[styles.button, styles.stop]}>
           <Text style={styles.text}>STOP</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => send('right')} style={styles.button}>
+        <TouchableOpacity
+          disabled={!enabled}
+          onPress={() => send('right')}
+          style={styles.button}>
           <Text style={styles.text}>R</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.containerButtonsExtremes}>
-        <TouchableOpacity onPress={() => send('reverse')} style={styles.button}>
+        <TouchableOpacity
+          disabled={!enabled}
+          onPress={() => send('reverse')}
+          style={styles.button}>
           <Text style={styles.text}>B</Text>
         </TouchableOpacity>
       </View>

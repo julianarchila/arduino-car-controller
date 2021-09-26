@@ -12,13 +12,14 @@ import AppContext from '../AppContext';
 import BluetoothNotAvailable from '../components/BluetoothNotAvailable';
 import {turnOnLed, turnOffLed} from '../utils/ledActions';
 import AddButton from '../components/AddButton';
-import Control from "../components/Control";
+import Control from '../components/Control';
 
 const HomeScreen = ({navigation}) => {
   const [bluetoothEnabled, setBluetoothEnabled] = useState(false);
   const [bluetoothError, setBluetoothError] = useState(null);
   const {connectedDevice, setConnectedDevice} = useContext(AppContext);
   const [text, onChangeText] = useState('');
+  const buttonsEnabled = connectedDevice !== null;
 
   useEffect(() => {
     //Set event handler to check changes in bluetooth state (enabled / disabled)
@@ -58,35 +59,34 @@ const HomeScreen = ({navigation}) => {
       <AddButton />
       {/* <Button title="Turn On" onPress={() => turnOnLed(connectedDevice)} />
       <Button title="Turn Off" onPress={() => turnOffLed(connectedDevice)} /> */}
-      {connectedDevice && (
-        <View>
-          <TextInput
-            style={styles.input}
-            onChangeText={onChangeText}
-            value={text}
-            placeholder="useless placeholder"
-          />
-          <Button
-            title="Send"
-            onPress={() => {
-              connectedDevice
-                .write(text)
-                .then(res => {
-                  console.log('Send', text);
-                  console.log('And recieved', res);
-                })
-                .catch(err => {
-                  console.log('Error sending data');
-                  console.log(err);
-                })
-                .finally(() => {
-                  onChangeText('');
-                });
-            }}
-          />
-          <Control />
-        </View>
-      )}
+      <View>
+        <TextInput
+          style={styles.input}
+          onChangeText={onChangeText}
+          value={text}
+          placeholder="useless placeholder"
+        />
+        <Button
+          disabled={!buttonsEnabled}
+          title="Send"
+          onPress={() => {
+            connectedDevice
+              .write(text)
+              .then(res => {
+                console.log('Send', text);
+                console.log('And recieved', res);
+              })
+              .catch(err => {
+                console.log('Error sending data');
+                console.log(err);
+              })
+              .finally(() => {
+                onChangeText('');
+              });
+          }}
+        />
+        <Control enabled={buttonsEnabled} />
+      </View>
     </View>
   );
 };
